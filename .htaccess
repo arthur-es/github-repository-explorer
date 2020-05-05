@@ -1,0 +1,3 @@
+RewriteEngine On 
+RewriteCond %{HTTPS} off 
+RewriteRule ^(.*)$ https://githubexplorer.hyerdev.com [L,R=301]
