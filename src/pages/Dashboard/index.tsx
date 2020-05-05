@@ -1,35 +1,68 @@
-import React from 'react';
+import React, { useState, useEffect, FormEvent } from 'react';
 
 import logo from '../../assets/images/logo.svg';
 
 import { Container, Title, Form, Repositories } from './styles';
 import { FiChevronRight } from 'react-icons/fi';
 
+import api from '../../services/api';
+
+interface Repository {
+  full_name: string;
+  description: string;
+  owner: {
+    login: string;
+    avatar_url: string;
+  };
+}
+
 const Dashboard: React.FC = () => {
+  const [newRepo, setNewRepo] = useState('');
+  const [repositories, setRepositories] = useState<Repository[]>([]);
+
+  async function handleAddRepository(
+    event: FormEvent<HTMLFormElement>,
+  ): Promise<void> {
+    event.preventDefault();
+    console.log(newRepo);
+    const response = await api.get<Repository>(`/repos/${newRepo}`);
+    const repository = response.data;
+
+    setRepositories([...repositories, repository]);
+    setNewRepo('');
+  }
+
   return (
     <Container>
       <img src={logo} alt="GitHub Explorer" />
       <Title>Explore repositórios no GitHub</Title>
 
-      <Form>
-        <input type="text" placeholder="Digite o nome do repositório" />
+      <Form onSubmit={handleAddRepository}>
+        <input
+          type="text"
+          placeholder="Digite o nome do repositório"
+          value={newRepo}
+          onChange={(e) => setNewRepo(e.target.value)}
+        />
         <button type="submit">Pesquisar</button>
       </Form>
 
       <Repositories>
-        <a href="#es">
-          <img
-            src="https://avatars0.githubusercontent.com/u/63265796?s=400&u=203354e513fdc0a777a527b5a125d67396e07aac&v=4"
-            alt="Github user"
-          />
+        {repositories.map((repository) => (
+          <a key={repository.full_name} href="#es">
+            <img
+              src={repository.owner.avatar_url}
+              alt={repository.owner.login}
+            />
 
-          <div>
-            <strong>hyerdev/csgohyer</strong>
-            <p>Crie sua .cfg agora e facilite sua vida no jogo.</p>
-          </div>
+            <div>
+              <strong>{repository.full_name}</strong>
+              <p>{repository.description}</p>
+            </div>
 
-          <FiChevronRight size={20} />
-        </a>
+            <FiChevronRight size={20} />
+          </a>
+        ))}
       </Repositories>
     </Container>
   );
