@@ -8,6 +8,12 @@ interface FormProps {
 
 export const Container = styled.div`
   padding-bottom: 40px;
+
+  @media (max-width: 450px) {
+    img {
+      max-width: 170px;
+    }
+  }
 `;
 
 export const Title = styled.h1`
@@ -16,6 +22,12 @@ export const Title = styled.h1`
   font-size: 48px;
   line-height: 50px;
   color: #3a3a3a;
+
+  @media (max-width: 450px) {
+    margin-top: 40px;
+    font-size: 30px;
+    line-height: 36px;
+  }
 `;
 
 export const Form = styled.form<FormProps>`
@@ -58,12 +70,33 @@ export const Form = styled.form<FormProps>`
       background: ${shade(0.2, '#04d361')};
     }
   }
+
+  @media (max-width: 450px) {
+    flex-direction: column;
+    height: 100px;
+
+    input {
+      border-radius: 5px 5px 0 0;
+      height: 70px !important;
+      -webkit-appearance: none;
+    }
+
+    button {
+      border-radius: 0px 0px 5px 5px;
+      width: 100%;
+      height: 50px;
+    }
+  }
 `;
 
 export const Error = styled.span`
   display: block;
   color: #c53030;
   margin-top: 8px;
+
+  @media (max-width: 450px) {
+    font-size: 15px;
+  }
 `;
 
 export const Repositories = styled.div`
@@ -117,6 +150,31 @@ export const Repositories = styled.div`
     svg {
       margin-left: auto;
       color: #cbcbcb;
+    }
+  }
+
+  @media (max-width: 450px) {
+    margin-top: 45px;
+
+    a {
+      padding: 16px;
+
+      img {
+        width: 45px;
+        height: 45px;
+      }
+
+      div {
+        margin: 0px 16px;
+
+        strong {
+          font-size: 16px;
+        }
+
+        p {
+          font-size: 14px;
+        }
+      }
     }
   }
 `;
